@@ -39,11 +39,20 @@ import {v4} from 'uuid';
 		const index = Math.floor(Math.random() * (colors.length));
 		return colors[index];
 	}
-
 	function handleUpdate(e){
 		const note = e.detail;
 		const index = notes.findIndex(n => n.id === note.id);
 		notes[index] = note;
+		copyNotes = [...notes];
+	}
+	function handleColor(e){
+		const index = notes.findIndex(n => n.id === e.detail.id);
+		notes[index].color = generateColor();
+		copyNotes[index].color = notes[index].color;
+	}
+	function handleRemove(e){
+		const response = notes.filter(n => n.id != e.detail.id);
+		notes = [...response];
 		copyNotes = [...notes];
 	}
 
@@ -52,7 +61,12 @@ import {v4} from 'uuid';
 <main>
 	<Header/>
 	<div class="count-notes">{count} notas</div>
-	<Dashboard notes={notes} on:click={handleNew} on:update={handleUpdate}/>
+	<Dashboard 
+	bind:notes={notes} 
+	on:click={handleNew} 
+	on:update={handleUpdate}
+	on:color={handleColor}
+	on:remove={handleRemove}/>
 </main>
 
 <style>

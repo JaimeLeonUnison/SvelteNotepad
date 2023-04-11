@@ -8,7 +8,7 @@
     <div class="notes-container">
         <NotePlaceholder on:click/>
         {#each notes as {id, title, color, text}}
-        <Note {id}{title}{color}{text} on:update/>
+        <Note {id}bind:title={title} {color} bind:text={text} on:update on:color on:remove/>
         {/each}
     </div>
 
